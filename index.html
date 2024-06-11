@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>COWORKSPOT</title>
+</head>
+<style>
+    body {
+        font-family: sans-serif;
+    } 
+
+    .logo-container {
+        position: fixed; 
+        top: 20px; 
+        left: 2%; 
+        transform: translateX(-50%); 
+        z-index: 999; 
+    }
+    .footer-content {
+        position: absolute;
+        bottom: 50px; 
+        left: 25%;
+        transform: translateX(-50%);
+    }
+
+    h1 {
+        font-family: 'Krona One', sans-serif;
+    }
+
+    /* Estilo personalizado para o botão de login */
+    .login-button {
+        width: 70%; /* Menor largura */
+        margin-top: 20px; /* Distância entre o botão e as caixas de texto */
+    }
+
+    /* Estilo personalizado para os campos de texto */
+    input[type="text"],
+    input[type="password"] {
+        margin-bottom: 10px; /* Espaço entre as caixas de texto */
+        padding: 10px; /* Espaçamento interno */
+        width: calc(100% - 20px); /* Largura ajustada */
+        border: 1px solid #ccc; /* Borda */
+        border-radius: 5px; /* Borda arredondada */
+    }
+</style>
+<body class="bg-gray-100">
+
+    <div class="flex relative">
+        <div class="logo-container">
+            <img src="./logo.png" alt="Logo" class="w-2 md:w-10 lg:w-20 xl:w-18">
+        </div>
+
+        <div class="w-1/2 bg-green-700 h-screen relative flex justify-center items-center">
+            <h1 class="text-white absolute top-10 left-20 text-4xl">CoworkSpot</h1>
+            <img src="reuniao.svg" alt="Reunião" class="absolute top-0 left-0 w-full h-full z-10">
+        </div>
+
+        <div class="footer-content">
+            <h2 class="text-white text-4xl">Encontre o melhor lugar para suas reuniões!</h2>
+        </div>
+
+        <div class="w-1/2 flex justify-center items-center flex-col">
+
+            <h3 class="fixed text-gray-500 text-4xl left-200 top-40 ">LOGIN</h3> 
+
+            <div class="p-20 bg-green-700 rounded-lg shadow-md flex flex-col items-center">
+                <form id="loginForm" action="URL_DA_PAGINA_DE_DESTINO" method="post">
+                    <div class="mb-16 flex items-center">
+                        <img src="person.png" alt="icon" class="w-6 mr-4">
+                        <input type="text" name="usuario" id="usuario" placeholder="Usuário">
+                    </div>
+                    <div class="mb-6 flex items-center">
+                        <img src="./cadeado (2).png" alt="icon" class="w-6 mr-4">
+                        <input type="password" name="senha" id="senha" placeholder="Senha">
+                    </div>
+                    <button type="submit" id="loginButton" class="login-button bg-green-600 text-white font-semibold px-8 py-2 rounded-md">LOGIN</button>
+                </form>
+                <div class="subtitulo mt-4 text-white text-center" style="font-size: small;">
+                    <p>Não tem uma conta? <a href="http://127.0.0.1:5501/index.html">Cadastre-se</a></p>
+                </div>
+                <div id="error-message" class="text-red-500 mt-4 hidden">Usuário ou senha inválidos.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            var usuario = document.getElementById("usuario").value;
+            var senha = document.getElementById("senha").value;
+
+         
+            var usuarioCorreto = "admin";
+            var senhaCorreta = "12345";
+
+            if (usuario === "" || senha === "") {
+                event.preventDefault(); 
+                document.getElementById("error-message").classList.remove("hidden");
+            } else {
+                if (usuario !== usuarioCorreto || senha !== senhaCorreta) {
+                    event.preventDefault(); 
+                    document.getElementById("error-message").classList.remove("hidden");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

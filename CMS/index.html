@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COWORKSPOT</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .form-container {
+      width: 50%;
+    }
+    .menu-container {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+    }
+    .menu-buttons {
+      position: absolute;
+      top: 40px;
+      right: 0;
+      display: none;
+      flex-direction: column;
+      background-color: #9aa1ac;
+      border: 1px solid #4b5563;
+      border-radius: 8px;
+      padding: 8px;
+      z-index: 1000;
+    }
+    .menu-buttons button {
+      margin: 4px 0;
+    }
+    .menu-buttons.show {
+      display: flex;
+    }
+    .krona-one {
+      font-family: 'Krona One', sans-serif;
+    }
+  </style>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-green-800">
+    <div class="top-bar"></div>
+
+  <div class="bg-green-800 p-6 flex justify-between items-center w-full">
+    <div class="flex items-center space-x-2">
+      <img src="./logo.png" alt="Logo" class="h-10 w-10">
+      <span class="text-white text-2xl font-bold krona-one">CoworkSpot</span>
+    </div>
+    <div class="menu-container">
+      <img src="./menu.png" alt="Menu" class="h-8 w-8 cursor-pointer" onclick="toggleMenu()">
+      <div id="menu" class="menu-buttons">
+        <button class="bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="window.location.href='ver-anuncio.html'">Ver Anúncio</button>
+        <button class="bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="window.location.href='ver-proposta.html'">Ver Proposta</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="content space-x-10">
+    <div class="form-container bg-gray-100 p-20 rounded-md mt-10 ml-10">
+ 
+      <h2 class="text-xl font-bold mb-4">Informações do Imóvel</h2>
+      <form id="form-imovel">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="endereco">Endereço</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="endereco" type="text" placeholder="Endereço">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="tipo">Tipo do imóvel</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="tipo" type="text" placeholder="Tipo do imóvel">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="preco">Preço</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="preco" type="text" placeholder="Preço">
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="foto">
+            <i class="fas fa-camera"></i> Foto
+          </label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="foto" type="file" accept="image/*">
+        </div>
+        <button class="bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="adicionarAnuncio()">
+          Anunciar
+        </button>
+      </form>
+    </div>
+
+    <div id="anuncios" class="w-2/3 space-y-4 mt-10">
+      <!-- Os anúncios serão adicionados aqui -->
+    </div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('show');
+    }
+
+    function adicionarAnuncio() {
+      const endereco = document.getElementById('endereco').value;
+      const tipo = document.getElementById('tipo').value;
+      const preco = document.getElementById('preco').value;
+      const foto = document.getElementById('foto').files[0];
+
+      if (endereco && tipo && preco && foto) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const anunciosDiv = document.getElementById('anuncios');
+          const anuncio = document.createElement('div');
+          anuncio.classList.add('bg-white', 'p-4', 'rounded-md', 'shadow-md', 'flex', 'justify-between', 'items-center');
+
+          anuncio.innerHTML = `
+            <div>
+              <p><strong>Endereço:</strong> ${endereco}</p>
+              <p><strong>Tipo:</strong> ${tipo}</p>
+              <p><strong>Preço:</strong> ${preco}</p>
+              <img src="${e.target.result}" alt="Foto do Imóvel" class="mt-2 w-32 h-32 object-cover">
+            </div>
+            <button class="bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="excluirAnuncio(this)">
+              Excluir
+            </button>
+          `;
+          anunciosDiv.appendChild(anuncio);
+        };
+       
+        reader.readAsDataURL(foto);
+      } else {
+        alert('Por favor, preencha todos os campos e selecione uma foto.');
+      }
+    }
+
+    function excluirAnuncio(button) {
+      const anuncio = button.parentElement;
+      anuncio.remove();
+    }
+  </script>
+
+</body>
+</html>
