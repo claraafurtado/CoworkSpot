@@ -1,2 +1,1 @@
 # CoworkSpot
-# CoworkSpot
